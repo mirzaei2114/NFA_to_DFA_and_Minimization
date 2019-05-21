@@ -1,30 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
 
 namespace NFA_to_DFA_and_Minimization
 {
     class NFA
     {
-        Tuple<List<long>, List<string>>[] Graph;
+        public Tuple<List<long>, List<string>>[] Transitions { get; }
         public long StateCount { get; }
         public string[] Alphabet { get; }
         public long InitialState { get; private set; }
         bool InitialStateSet { get; }
         public List<long> FinalStates { get; }
-        static Exception inputIncorrectException = new Exception("Input was not in correct format!");
+        static readonly Exception InputIncorrectException = new Exception("Input was not in correct format!");
 
         public NFA(string NFAPath)
         {
             StreamReader reader = new StreamReader(NFAPath);
             InitialStateSet = false;
             StateCount = long.Parse(reader.ReadLine());
-            Graph = new Tuple<List<long>, List<string>>[StateCount];
+            Transitions = new Tuple<List<long>, List<string>>[StateCount];
+            for (int i = 0; i < StateCount; i++)
+                Transitions[i] = new Tuple<List<long>, List<string>>(new List<long>(), new List<string>());
             Alphabet = reader.ReadLine().Split(',');
-            string[] lines = reader.ReadToEnd().Split('\n');
+            FinalStates = new List<long>();
+            string[] lines = reader.ReadToEnd().Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string line in lines)
                 ParsLine(line);
         }
@@ -40,7 +41,7 @@ namespace NFA_to_DFA_and_Minimization
             {
                 source = long.Parse(transition[0].Substring(2));
                 if (source >= StateCount)
-                    throw inputIncorrectException;
+                    throw InputIncorrectException;
 
                 if (!FinalStates.Contains(source))
                     FinalStates.Add(source);
@@ -51,7 +52,7 @@ namespace NFA_to_DFA_and_Minimization
                 if (!InitialStateSet)
                     InitialState = source;
                 else if (InitialState != source || source >= StateCount)
-                    throw inputIncorrectException;
+                    throw InputIncorrectException;
             }
             else
                 source = long.Parse(transition[0].Substring(1));
@@ -60,7 +61,7 @@ namespace NFA_to_DFA_and_Minimization
             {
                 destination = long.Parse(transition[2].Substring(2));
                 if (destination >= StateCount)
-                    throw inputIncorrectException;
+                    throw InputIncorrectException;
 
                 if (!FinalStates.Contains(destination))
                     FinalStates.Add(destination);
@@ -71,17 +72,18 @@ namespace NFA_to_DFA_and_Minimization
                 if (!InitialStateSet)
                     InitialState = destination;
                 else if (InitialState != destination || destination >= StateCount)
-                    throw inputIncorrectException;
+                    throw InputIncorrectException;
             }
             else
                 destination = long.Parse(transition[2].Substring(1));
 
             //Check for transition alphabet correctness
             if (transition[1] != "_" && !Alphabet.Contains(transition[1]))
-                throw inputIncorrectException;
+                throw InputIncorrectException;
 
-            Graph[source].Item1.Add(destination);
-            Graph[source].Item2.Add(transition[1]);
+            //Add transition
+            Transitions[source].Item1.Add(destination);
+            Transitions[source].Item2.Add(transition[1]);
         }
     }
 }
