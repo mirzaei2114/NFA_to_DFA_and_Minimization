@@ -1,4 +1,4 @@
-# NFA_to_DFA_and_Minimization
+# NFA to DFA and Minimization
 Given a NFA, Find its equivalent DFA and minimize it.
 
 You Should Enter Address of a .txt File That Contains A NFA Repersenter In This Format:
