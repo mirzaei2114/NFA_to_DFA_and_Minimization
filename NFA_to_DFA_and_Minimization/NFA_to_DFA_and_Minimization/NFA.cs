@@ -13,21 +13,29 @@ namespace NFA_to_DFA_and_Minimization
         public long InitialState { get; private set; }
         bool InitialStateSet { get; }
         public List<long> FinalStates { get; }
-        static readonly Exception InputIncorrectException = new Exception("Input was not in correct format!");
+        static readonly Exception InputIncorrectException = new Exception("Input Was Not In Correct Format!");
 
         public NFA(string NFAPath)
         {
             StreamReader reader = new StreamReader(NFAPath);
             InitialStateSet = false;
-            StateCount = long.Parse(reader.ReadLine());
+            try
+            {
+                StateCount = long.Parse(reader.ReadLine());
+                Alphabet = reader.ReadLine().Split(',');
+            }
+            catch
+            {
+                throw InputIncorrectException;
+            }
             Transitions = new Tuple<List<long>, List<string>>[StateCount];
             for (int i = 0; i < StateCount; i++)
                 Transitions[i] = new Tuple<List<long>, List<string>>(new List<long>(), new List<string>());
-            Alphabet = reader.ReadLine().Split(',');
             FinalStates = new List<long>();
             string[] lines = reader.ReadToEnd().Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string line in lines)
                 ParsLine(line);
+            reader.Close();
         }
 
         private void ParsLine(string line)
