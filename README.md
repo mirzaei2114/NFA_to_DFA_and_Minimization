@@ -5,15 +5,16 @@ You Should Enter Address of a .txt File That Contains A NFA Repersenter In This 
 
 - 1 Line for Number of States
 - 1 Line for Alphabet
-- <B> N Lines for Transitions In the Form of:<B>
+- <B> N Lines for Transitions In the Form of:
 
     + Sorce State, Alphabet, Destination State
     + "->" Prefix of Initial State (In Start Of The Line)
     + "*" Prefix for Final States
+</B>
 
-~ Then Press "Load NFA" to Parse the Text File and Generate NFA.
+~~ Then Press "Load NFA" to Parse the Text File and Generate NFA.
 
-~ Now You Can Press "Generate DFA" to Convert NFA to DFA and Also "Minimize DFA" to Minimize It. Note That Every Output Generte in .txt Files and You Should Enter an Address for Each Output .txt File!
+~~ Now You Can Press "Generate DFA" to Convert NFA to DFA and Also "Minimize DFA" to Minimize It. Note That Every Output Generte in .txt Files and You Should Enter an Address for Each Output .txt File!
 
 
 Input .txt File Example:
