@@ -1,7 +1,7 @@
 # NFA to DFA and Minimization
 Given a NFA, Find its equivalent DFA and minimize it.
 
-You Should Enter Address of a .txt File That Contains A NFA Repersenter In This Format:
+You Should Enter Address of a .txt File That Contains a NFA Repersenter In This Format:
 
 - 1 Line for Number of States
 - 1 Line for Alphabet
